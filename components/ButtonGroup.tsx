@@ -22,6 +22,7 @@ const ButtonGroup: FC<Props> = ({ options, value, onValueChange }) => {
           if (isSelected) {
             return (
               <CustomButton
+                key={option.id}
                 title={option.name}
                 onPress={() => onValueChange(option.id)}
                 backgroundColor="#C67C4E"
@@ -31,6 +32,7 @@ const ButtonGroup: FC<Props> = ({ options, value, onValueChange }) => {
           }
           return (
             <Pressable
+              key={option.id}
               style={styles.child}
               onPress={() => onValueChange(option.id)}
             >

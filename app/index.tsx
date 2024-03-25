@@ -32,7 +32,6 @@ export default function Page() {
                 Coffee so good, your taste buds will love it.
               </CustomText>
             </View>
-
             <View style={styles.introDescription}>
               <CustomText
                 color="darkGray"

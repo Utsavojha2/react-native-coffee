@@ -7,6 +7,13 @@ export const COFFEE_LIST = [
   "Frapino Caramel",
 ];
 
+export interface Coffee {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+}
+
 export const COFFEE_DATA = [
   {
     title: "Black Coffee",

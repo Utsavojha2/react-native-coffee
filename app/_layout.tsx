@@ -5,6 +5,7 @@ import { Slot, SplashScreen } from "expo-router";
 export default function Layout() {
   const [loaded, error] = useFonts({
     Sora: require("../assets/font/Sora.ttf"),
+    
   });
 
   useEffect(() => {
