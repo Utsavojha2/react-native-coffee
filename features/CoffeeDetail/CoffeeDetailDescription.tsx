@@ -54,6 +54,7 @@ const CoffeeDetailDescription: FC<Props> = ({ description }) => {
             const isActive = i === 1;
             return (
               <TouchableOpacity
+                key={size}
                 style={[
                   {
                     backgroundColor: isActive ? "#FFF5EE" : "#FFFFFF",

@@ -1,12 +1,17 @@
-import React from "react";
+import React, { FC } from "react";
 import { StyleSheet, View } from "react-native";
 import BottomFixedElement from "components/BottomFixedElement";
 import CustomButton from "components/CustomButton";
 import Flex from "components/Flex";
 import CustomText from "components/Text";
 import { router } from "expo-router";
+import { Coffee } from "dummy/coffee-data";
 
-const CoffeeDetailPurchase = () => {
+interface Props {
+  coffee: Coffee;
+}
+
+const CoffeeDetailPurchase: FC<Props> = ({ coffee }) => {
   return (
     <BottomFixedElement>
       <View style={styles.content}>
@@ -27,7 +32,7 @@ const CoffeeDetailPurchase = () => {
           <CustomButton
             title="Buy Now"
             onPress={() => {
-              router.push("/coffee/1/order");
+              router.push(`/coffee/${coffee.id}/order`);
             }}
             backgroundColor="#C67C4E"
             style={{

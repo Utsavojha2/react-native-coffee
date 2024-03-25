@@ -6,8 +6,13 @@ import CoffeeDetailContent from "features/CoffeeDetail/CoffeeDetailContent";
 import CoffeeDetailDescription from "features/CoffeeDetail/CoffeeDetailDescription";
 import CoffeeDetailHeader from "features/CoffeeDetail/CoffeeDetailHeader";
 import CoffeeDetailPurchase from "features/CoffeeDetail/CoffeeDetailPurchase";
+import { useLocalSearchParams } from "expo-router";
+import { COFFEE_DATA } from "dummy/coffee-data";
+import { useCoffeeDetail } from "hooks/useCoffeeDetail";
 
 const CoffeeDetailPage = () => {
+  const coffee = useCoffeeDetail();
+
   return (
     <Fragment>
       <SafeAreaView>
@@ -16,10 +21,10 @@ const CoffeeDetailPage = () => {
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View style={styles.container}>
           <CoffeeDetailContent
-            image="https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg"
+            image={coffee?.image || ""}
             rating={4.8}
             totalRatings={243}
-            title="Caffe Latte"
+            title={coffee?.title || ""}
           />
           <Sep
             styles={{
@@ -27,10 +32,10 @@ const CoffeeDetailPage = () => {
               marginBottom: 20,
             }}
           />
-          <CoffeeDetailDescription description="A cappuccino is an approximately 150 ml (5 oz) beverage, with 25 ml of espresso coffee and 85ml of fresh milk the foA cappuccino is an approximately 150 ml (5 oz) beverage, with 25 ml of espresso coffee and 85ml of fresh milk the foA cappuccino is an approximately 150 ml (5 oz) beverage, with 25 ml of espresso coffee and 85ml of fresh milk the foden." />
+          <CoffeeDetailDescription description={coffee?.description || ""} />
         </View>
       </ScrollView>
-      <CoffeeDetailPurchase />
+      {coffee && <CoffeeDetailPurchase coffee={coffee} />}
     </Fragment>
   );
 };
