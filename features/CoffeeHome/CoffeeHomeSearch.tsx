@@ -10,21 +10,19 @@ interface Props {
 
 const CoffeeHomeSearch: FC<Props> = ({ search, onChangeText }) => {
   return (
-    <>
-      <View style={styles.wrapper}>
-        <AntDesign name="search1" size={20} color="white" />
-        <TextInput
-          style={styles.input}
-          value={search}
-          onChangeText={onChangeText}
-          placeholder="Search coffee..."
-          placeholderTextColor="#989898"
-        />
-        <View style={styles.filterBtn}>
-          <MaterialIcons name="manage-search" size={20} color="white" />
-        </View>
+    <View style={styles.wrapper}>
+      <AntDesign name="search1" size={20} color="white" />
+      <TextInput
+        style={styles.input}
+        value={search}
+        onChangeText={onChangeText}
+        placeholder="Search coffee..."
+        placeholderTextColor="#989898"
+      />
+      <View style={styles.filterBtn}>
+        <MaterialIcons name="manage-search" size={20} color="white" />
       </View>
-    </>
+    </View>
   );
 };
 
@@ -42,10 +40,10 @@ const styles = StyleSheet.create({
   },
   input: {
     marginLeft: 12,
-    color: "red",
     fontSize: 14,
     fontFamily: "Sora",
     flex: 1,
+    color: "#fff",
   },
   filterBtn: {
     padding: 12,

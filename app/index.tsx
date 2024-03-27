@@ -11,12 +11,13 @@ import {
 } from "react-native";
 import { Link, router } from "expo-router";
 
-const image = require("assets/auth.png");
+const landingPageImg = require("assets/auth.png");
+const googleLogoImg = require("assets/google-logo.png");
 
 export default function Page() {
   return (
     <View style={styles.container}>
-      <Image source={image} style={styles.imgContainer} />
+      <Image source={landingPageImg} style={styles.imgContainer} />
       <View style={styles.slotContainer}>
         <View style={styles.container}>
           <View style={styles.introWrapper}>
@@ -52,7 +53,7 @@ export default function Page() {
                   router.replace("/home");
                 }}
               >
-                <AntDesign name="google" size={28} color="gray" />
+                <Image source={googleLogoImg} width={33} height={33} />
                 <CustomText size="MD" color="dark" opacity={0.54}>
                   Continue with Google
                 </CustomText>

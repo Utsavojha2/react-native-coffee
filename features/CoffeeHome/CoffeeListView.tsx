@@ -1,14 +1,11 @@
-import { MaterialIcons } from "@expo/vector-icons";
 import Flex from "components/Flex";
 import CustomText from "components/Text";
 import React, { FC, Fragment, useState } from "react";
 import {
-  Dimensions,
   Image,
   LayoutChangeEvent,
-  ScrollView,
   StyleSheet,
-  TouchableNativeFeedback,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
@@ -97,11 +94,14 @@ const CoffeeListItem: FC<{
                 $ {coffee.price.toFixed(2)}
               </CustomText>
 
-              <TouchableNativeFeedback onPress={() => onSeeDetails(coffee.id)}>
+              <TouchableOpacity
+                activeOpacity={1}
+                onPress={() => onSeeDetails(coffee.id)}
+              >
                 <View style={styles.viewCoffeeBtn}>
                   <Entypo name="plus" size={16} color="white" />
                 </View>
-              </TouchableNativeFeedback>
+              </TouchableOpacity>
             </Flex>
           </Flex>
         </View>
@@ -116,7 +116,6 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     borderRadius: 16,
     backgroundColor: "#F4F4F4",
-    // width: "48.83%",
   },
   cardImg: {
     borderRadius: 12,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { router } from "expo-router";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -10,6 +10,14 @@ import CoffeeHomeSearch from "features/CoffeeHome/CoffeeHomeSearch";
 import CoffeeListView from "features/CoffeeHome/CoffeeListView";
 
 const CoffeeHome = () => {
+  const [searchText, setSearchText] = useState("");
+
+  const coffeeList = searchText
+    ? COFFEE_DATA.filter((c) => {
+        return c.title.toLowerCase().includes(searchText.toLowerCase());
+      })
+    : COFFEE_DATA;
+
   return (
     <SafeAreaView>
       <ScrollView>
@@ -19,7 +27,10 @@ const CoffeeHome = () => {
               location="Boston, Massachusetts"
               profilePicture="https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg"
             />
-            <CoffeeHomeSearch search="" onChangeText={() => {}} />
+            <CoffeeHomeSearch
+              search={searchText}
+              onChangeText={setSearchText}
+            />
             <CoffeeHomeBanner />
           </View>
           <View style={styles.bottomWrapper}>
@@ -33,7 +44,7 @@ const CoffeeHome = () => {
           </View>
           <View style={styles.coffeeListWrapper}>
             <CoffeeListView
-              coffeeList={COFFEE_DATA.map((c) => ({
+              coffeeList={coffeeList.map((c) => ({
                 ...c,
                 name: c.title,
                 price: 4.53,
