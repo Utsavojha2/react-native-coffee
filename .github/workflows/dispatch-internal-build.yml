@@ -1,11 +1,5 @@
-name: 🛠️ EAS Internal Distribution
-
 on:
   workflow_dispatch:
-    inputs:
-      branch:
-        description: "Name of branch to trigger a build for"
-        required: true
 
 jobs:
   build:
@@ -14,7 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.inputs.branch }} 
+          ref: ${{ github.event.inputs.branch }}
       - uses: actions/setup-node@v3
         with:
           node-version: 20.9.0
