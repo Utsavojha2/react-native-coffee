@@ -1,18 +1,23 @@
-name: EAS Build
+name: 🛠️ EAS Internal Distribution
+
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - master
+    inputs:
+      branch:
+        description: "Name of branch to trigger a build for"
+        required: true
+
 jobs:
   build:
     name: Install and build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.inputs.branch }} 
       - uses: actions/setup-node@v3
         with:
-          node-version: 18.x
+          node-version: 20.9.0
           cache: npm
       - name: Setup Expo and EAS
         uses: expo/expo-github-action@v8
@@ -21,5 +26,5 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
       - name: Install dependencies
         run: npm ci
-      - name: Build on EAS
-        run: eas build --platform android --non-interactive --no-wait
+      - name: Internal dev build
+        run: eas build --profile dev-preview --platform android --non-interactive --no-wait
