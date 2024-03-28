@@ -17,7 +17,7 @@ const CoffeeHomeBanner = () => {
         <View style={styles.bannerContent}>
           <View style={styles.bannerTag}>
             <CustomText size="XS" color="white" fontWeight="bold">
-              Promo
+              Promo (dev build)
             </CustomText>
           </View>
           <View style={styles.bannerHeading}>
