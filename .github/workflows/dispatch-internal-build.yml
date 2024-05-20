@@ -14,12 +14,20 @@ jobs:
         with:
           node-version: 20.9.0
           cache: npm
+
       - name: Setup Expo and EAS
         uses: expo/expo-github-action@v8
         with:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
+
       - name: Install dependencies
         run: npm ci
+
       - name: Internal dev build
-        run: eas build --profile dev-preview --platform android --non-interactive --no-wait
+        run: eas build --profile dev-preview --platform android --local --output=build/generated.apk
+
+      - name: Upload file to Transfer.sh
+      run: |
+        FILE_PATH="build/generated.apk"
+        curl --upload-file $FILE_PATH https://transfer.sh/$(basename $FILE_PATH)
