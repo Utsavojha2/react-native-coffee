@@ -28,6 +28,6 @@ jobs:
         run: eas build --profile dev-preview --platform android --local --output=build/generated.apk
 
       - name: Upload file to Transfer.sh
-      run: |
-        FILE_PATH="build/generated.apk"
-        curl --upload-file $FILE_PATH https://transfer.sh/$(basename $FILE_PATH)
+        run: |
+          FILE_PATH="build/generated.apk"
+          curl --upload-file $FILE_PATH https://transfer.sh/$(basename $FILE_PATH)
