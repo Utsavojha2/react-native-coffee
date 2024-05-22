@@ -31,8 +31,8 @@ jobs:
 
       - uses: actions/download-artifact@v4
         with:
-        name: txt-build
-        path: build
+          name: txt-build
+          path: build
 
       - name: Display structure of downloaded files
         run: ls -R build
