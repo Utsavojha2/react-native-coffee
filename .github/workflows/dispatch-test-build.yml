@@ -15,10 +15,24 @@ jobs:
         run: |
           echo "This is a dummy text file for testing upload to Google Drive" > dummy.txt
 
+      - name: Generate dynamic upload name
+        run: |
+          # Get current date and time in 'YYYY-MM-DDTHH:MM:SS' format
+          CURRENT_DATETIME=$(date +'%Y-%m-%dT%H:%M:%S')
+
+          # Construct the dynamic upload name with desired format
+          DYNAMIC_NAME="${CURRENT_DATETIME}-journal.apk"
+
+          # Set the dynamic name as an environment variable for later use
+          echo "::set-env name=DYNAMIC_NAME::${DYNAMIC_NAME}"
+
+          # Print the dynamic name for reference (optional)
+          echo "Dynamic Upload Name: $DYNAMIC_NAME"
+
       - name: Authenticate with Google Drive and upload dummy file
         uses: hoatruongdev09/google-drive-file-upload-github-action@v1.1
         with:
           service-account-json: ${{ secrets.GOOGLE_CREDENTIALS }}
           upload-to-folder-id: ${{ secrets.DRIVE_FOLDER_ID }}
-          upload-name: "$(date +'%Y-%m-%dT%H:%M:%S')-journal.txt" # Inline date generation
+          upload-name: ${{ env.DYNAMIC_NAME }} # Use the generated variable here
           file-path: dummy.txt
