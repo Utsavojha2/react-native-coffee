@@ -54,10 +54,16 @@ jobs:
           name: apk-build
           path: build
 
+      - name: Set current datetime for apk build
+        shell: bash
+        run: |
+          datetime=$(date +'%Y-%m-%dT%H:%M:%S')
+          echo "DateTime=$datetime" >> $GITHUB_ENV
+
       - name: Authenticate and upload to Google Drive
         uses: hoatruongdev09/google-drive-file-upload-github-action@v1.1
         with:
           service-account-json: ${{ secrets.GOOGLE_CREDENTIALS }}
           upload-to-folder-id: ${{ secrets.DRIVE_FOLDER_ID }}
           file-path: build/generated.apk
-          upload-name: generated.apk
+          upload-name: ${{ env.DateTime }}-Journa.apk
