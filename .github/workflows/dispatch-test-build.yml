@@ -20,5 +20,5 @@ jobs:
         with:
           service-account-json: ${{ secrets.GOOGLE_CREDENTIALS }}
           upload-to-folder-id: ${{ secrets.DRIVE_FOLDER_ID }} 
-          upload-name: test.txt
+          upload-name: ${{ steps.date.outputs.date }}-test.txt
           file-path: dummy.txt
