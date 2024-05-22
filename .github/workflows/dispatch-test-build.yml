@@ -34,13 +34,17 @@ jobs:
           name: txt-build
           path: build
 
-      - name: Display structure of downloaded files
-        run: ls -R build
+      - name: Set and Retrieve Github ENV variables
+        shell: bash
+        run: |
+          tests=16
+          failures=2
+          datetime=$(date +'%Y-%m-%dT%H:%M:%S')
 
-      - name: Authenticate and upload to Google Drive
-        uses: hoatruongdev09/google-drive-file-upload-github-action@v1.1
-        with:
-          service-account-json: ${{ secrets.GOOGLE_CREDENTIALS }}
-          upload-to-folder-id: ${{ secrets.DRIVE_FOLDER_ID }}
-          file-path: build/dummy.txt
-          upload-name: dummy.txt
+          echo "Tests=$tests" >> $GITHUB_ENV
+          echo "Failures=$failures" >> $GITHUB_ENV
+          echo "DateTime=$datetime" >> $GITHUB_ENV
+
+      - name: Retrieve environment variables
+        shell: bash
+        run: echo "${{ env.Failures }} out of ${{ env.Tests }} tests failed on CI on ${{ env.DateTime }}"
