@@ -47,10 +47,10 @@ jobs:
           mkdir -p build
           cp ${{ needs.build.outputs.build_path }} build/generated.apk
       
-      - name: Authenticate with Google Drive
-        uses: gdrive-uploader/action-upload@v1
+      - name: Authenticate and upload to Google Drive
+        uses: hoatruongdev09/google-drive-file-upload-github-action@v1.1
         with:
-          credentials: ${{ secrets.GOOGLE_CREDENTIALS }}
-          folder-id: ${{ secrets.DRIVE_FOLDER_ID }} 
+          service-account-json: ${{ secrets.GOOGLE_CREDENTIALS }}
+          upload-to-folder-id: ${{ secrets.DRIVE_FOLDER_ID }}
           file-path: build/generated.apk
-    
+          upload-name: generated.apk
