@@ -1,0 +1,23 @@
+name: EAS Test Distribution
+on:
+  workflow_dispatch:
+
+jobs:
+  upload-to-drive:
+    name: Upload Dummy Text File to Google Drive
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Create dummy text file
+        run: |
+          echo "This is a dummy text file for testing upload to Google Drive" > dummy.txt
+      
+      - name: Authenticate with Google Drive and upload dummy file
+        uses: gdrive-uploader/action-upload@v1
+        with:
+          credentials: ${{ secrets.GOOGLE_CREDENTIALS }}
+          folder-id: ${{ secrets.DRIVE_FOLDER_ID }} 
+          file-path: dummy.txt
