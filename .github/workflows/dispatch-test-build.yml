@@ -16,8 +16,9 @@ jobs:
           echo "This is a dummy text file for testing upload to Google Drive" > dummy.txt
       
       - name: Authenticate with Google Drive and upload dummy file
-        uses: gdrive-uploader/action-upload@v1
+        uses: hoatruongdev09/google-drive-file-upload-github-action@v1.1
         with:
-          credentials: ${{ secrets.GOOGLE_CREDENTIALS }}
-          folder-id: ${{ secrets.DRIVE_FOLDER_ID }} 
+          service-account-json: ${{ secrets.GOOGLE_CREDENTIALS }}
+          upload-to-folder-id: ${{ secrets.DRIVE_FOLDER_ID }} 
+          upload-name: test.txt
           file-path: dummy.txt
