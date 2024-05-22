@@ -13,16 +13,13 @@ jobs:
 
       - name: Create dummy text file
         run: |
-          echo "This is a dummy text file for testing upload to Google Drive" > dummy.txt
+          mkdir -p build
+          echo "This is a dummy text file for testing upload to Google Drive" > build/dummy.txt
 
-      - uses: actions/github-script@v6
-        id: set-result
+      - uses: actions/upload-artifact@v4
         with:
-          script: return "build/generated.apk"
-          result-encoding: string
-
-      - name: Get result
-        run: echo "${{steps.set-result.outputs.result}}"
+          name: txt-build
+          path: build/dummy.txt
 
   upload-to-drive:
     name: Upload APK to Google Drive
@@ -32,7 +29,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Download build artifact
-        run: |
-          mkdir -p build
-          cp ${{ steps.set-result.outputs.result }} build/generated.apk
+      - uses: actions/download-artifact@v4
+        with:
+        name: txt-build
+        path: build
+
+      - name: Display structure of downloaded files
+        run: ls -R build
