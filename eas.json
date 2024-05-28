@@ -4,6 +4,8 @@
       "distribution": "internal"
     },
     "dev-preview": {
+      "distribution": "internal",
+      "developmentClient": false,
       "android": {
         "buildType": "apk"
       }
