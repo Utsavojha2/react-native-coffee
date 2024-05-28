@@ -10,14 +10,14 @@ on:
         options:
           - android
           - ios
-    buildType:
-      description: "Build Type"
-      required: true
-      default: "local"
-      type: choice
-      options:
-        - local
-        - cloud
+      buildType:
+        description: "Build Type"
+        required: true
+        default: "local"
+        type: choice
+        options:
+          - local
+          - cloud
 
 jobs:
   app-build:
