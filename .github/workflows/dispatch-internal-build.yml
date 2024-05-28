@@ -67,7 +67,7 @@ jobs:
       - name: Set current datetime for apk build
         shell: bash
         run: |
-          datetime=$(date +'%Y-%m-%dT%H:%M:%S')
+          datetime=$(TZ="Asia/Kathmandu" date +"%Y-%m-%dT%H:%M:%S")
           echo "DateTime=$datetime" >> $GITHUB_ENV
 
       - name: Authenticate and upload to Google Drive
