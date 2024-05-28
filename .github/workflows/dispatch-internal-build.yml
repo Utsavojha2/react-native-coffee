@@ -1,14 +1,15 @@
 name: EAS Internal APK Distribution
 on:
   workflow_dispatch:
-    platform:
-      description: "Build Platform"
-      required: true
-      default: "android"
-      type: choice
-      options:
-        - android
-        - ios
+    inputs:
+      platform:
+        description: "Build Platform"
+        required: true
+        default: "android"
+        type: choice
+        options:
+          - android
+          - ios
 
 jobs:
   app-build:
