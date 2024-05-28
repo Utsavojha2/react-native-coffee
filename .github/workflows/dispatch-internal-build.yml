@@ -1,9 +1,17 @@
-name: 🛠️ EAS Internal Distribution
+name: EAS Internal APK Distribution
 on:
   workflow_dispatch:
+    platform:
+      description: "Build Platform"
+      required: true
+      default: "android"
+      type: choice
+      options:
+        - android
+        - ios
 
 jobs:
-  build:
+  app-build:
     name: Install and build
     runs-on: ubuntu-latest
     steps:
@@ -32,19 +40,20 @@ jobs:
         run: yarn install
 
       - name: Internal dev build
+        shell: bash
         run: |
-          mkdir -p build
-          eas build --profile dev-preview --platform android --local --output=build/generated.apk
+          mkdir -p build |
+          eas build --profile dev-preview --platform android --local --output=build/generated.${{ github.event.inputs.platform == 'android' && 'apk' || 'ipa' }}
 
       - uses: actions/upload-artifact@v4
         with:
           name: apk-build
-          path: build/generated.apk
+          path: build
 
   upload-to-drive:
     name: Upload APK to Google Drive
     runs-on: ubuntu-latest
-    needs: build
+    needs: app-build
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -65,5 +74,5 @@ jobs:
         with:
           service-account-json: ${{ secrets.GOOGLE_CREDENTIALS }}
           upload-to-folder-id: ${{ secrets.DRIVE_FOLDER_ID }}
-          file-path: build/generated.apk
-          upload-name: ${{ env.DateTime }}-Journa.apk
+          file-path: build/generated.${{ github.event.inputs.platform == 'android' && 'apk' || 'ipa' }}
+          upload-name: ${{ env.DateTime }}-Journa.${{ github.event.inputs.platform == 'android' && 'apk' || 'ipa' }}
