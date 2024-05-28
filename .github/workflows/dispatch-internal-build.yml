@@ -52,7 +52,13 @@ jobs:
         shell: bash
         run: |
           mkdir -p build |
-          eas build --profile dev-preview --platform ${{ github.event.inputs.platform }} $([ "${{ github.event.inputs.buildType }}" = "local" ] && echo '--local') --output=build/generated.${{ github.event.inputs.platform == 'android' && 'apk' || 'ipa' }}
+
+          eas_build_command="eas build --profile dev-preview --platform ${{ github.event.inputs.platform }}"
+          if [[ "${{ github.event.inputs.buildType }}" == "local" ]]; then
+            eas_build_command="${eas_build_command} --local --output=build/generated.${{ github.event.inputs.platform == 'android' && 'apk' || 'ipa' }}"
+          fi
+
+          eval "$eas_build_command"
 
       - uses: actions/upload-artifact@v4
         with:
