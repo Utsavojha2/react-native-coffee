@@ -1,4 +1,4 @@
-name: Test -- EAS Internal APK Distribution
+name: Staging -- EAS Internal APK Distribution
 on:
   push:
 
@@ -31,21 +31,16 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Internal dev build
+      - name: dispatch-test-build
         shell: bash
         run: |
-          touch .env 
+          touch .env |
           echo EXPO_PUBLIC_SUPABASE_API_URL=${{ secrets.EXPO_API_URL }} >> .env |
           echo EXPO_PUBLIC_SUPABASE_API_KEY=${{ secrets.EXPO_API_KEY }} >> .env |
           cat .env |
           yarn global add dotenv-cli |
+          dotenv -- eas build --profile dev-preview --platform android --non-interactive --local --output=build/generated.apk
 
-          eas_build_command="eas build --profile preview --platform ${{ github.event.inputs.platform }} --non-interactive" |
-          if [[ "${{ github.event.inputs.buildType }}" == "local" ]]; then
-            eas_build_command="${eas_build_command} --local --output=build/generated.${{ github.event.inputs.platform == 'android' && 'apk' || 'ipa' }}" |
-          fi
-
-          eval "dotenv -- $eas_build_command"
       - uses: actions/upload-artifact@v4
         with:
           name: apk-build
@@ -76,4 +71,4 @@ jobs:
           service-account-json: ${{ secrets.GOOGLE_CREDENTIALS }}
           upload-to-folder-id: ${{ secrets.DRIVE_FOLDER_ID }}
           file-path: build/generated.apk
-          upload-name: testing-Journa.apk
+          upload-name: staging-Journa.apk
