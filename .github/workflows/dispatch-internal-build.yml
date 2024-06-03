@@ -48,12 +48,20 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+      - name: Set env
+        shell: bash
+        run: |
+          touch .env 
+          echo EXPO_PUBLIC_SUPABASE_API_URL=${{ secrets.EXPO_API_URL }} >> .env 
+          echo EXPO_PUBLIC_SUPABASE_API_KEY=${{ secrets.EXPO_API_KEY }} >> .env 
+          cat .env 
+
       - name: Internal dev build
         shell: bash
         run: |
           mkdir -p build 
           yarn global add dotenv-cli
-          eas_build_command="eas build --profile dev-preview --platform ${{ github.event.inputs.platform }} --non-interactive"
+          eas_build_command="dotenv -e .env -- eas build --profile dev-preview --platform ${{ github.event.inputs.platform }} --non-interactive"
           if [[ "${{ github.event.inputs.buildType }}" == "local" ]]; then
             eas_build_command="${eas_build_command} --local --output=build/generated.${{ github.event.inputs.platform == 'android' && 'apk' || 'ipa' }}"
           fi
