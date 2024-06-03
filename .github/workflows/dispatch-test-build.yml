@@ -1,4 +1,4 @@
-name: EAS Internal APK Distribution
+name: Test -- EAS Internal APK Distribution
 on:
   push:
 
