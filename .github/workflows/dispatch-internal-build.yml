@@ -53,13 +53,15 @@ jobs:
         run: |
           touch .env 
           echo EXPO_PUBLIC_SUPABASE_API_URL=${{ secrets.EXPO_API_URL }} >> .env 
-          echo EXPO_PUBLIC_SUPABASE_API_KEY=${{ secrets.EXPO_API_KEY }} >> .env 
-          cat .env
-          yarn global add dotenv-cli
+          echo EXPO_PUBLIC_SUPABASE_API_KEY=${{ secrets.EXPO_API_KEY }} >> .env
 
       - name: Local dev build
         if: ${{ github.event.inputs.buildType == 'local' }}
-        run: dotenv -e .env -- eas build --profile dev-preview --platform ${{ github.event.inputs.platform }} --non-interactive --local --output=build/generated.${{ github.event.inputs.platform == 'android' && 'apk' || 'ipa' }}
+        shell: bash
+        run: |
+          cat .env
+          yarn global add dotenv-cli
+          dotenv -e .env -- eas build --profile dev-preview --platform ${{ github.event.inputs.platform }} --non-interactive --local --output=build/generated.${{ github.event.inputs.platform == 'android' && 'apk' || 'ipa' }}
 
       - name: Expo cloud build
         if: ${{ github.event.inputs.buildType == 'cloud' }}
