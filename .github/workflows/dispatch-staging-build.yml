@@ -1,15 +1,15 @@
-name: Staging -- EAS Internal APK Distribution
+name: Staging EAS Internal APK Distribution
 on:
-  push:
+  workflow_dispatch:
 
 jobs:
-  app-build:
+  build:
     name: Install and build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: ${{ github.ref_name }}
+          ref: ${{ github.event.inputs.branch }}
 
       - uses: actions/setup-node@v3
         with:
@@ -31,7 +31,7 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: dispatch-staging-build
+      - name: Internal dev build
         shell: bash
         run: |
           touch .env |
@@ -41,16 +41,16 @@ jobs:
           yarn global add dotenv-cli |
           mkdir -p build |
           dotenv -- eas build --profile dev-preview --platform android --local --output=build/generated.apk
-
+          
       - uses: actions/upload-artifact@v4
         with:
           name: apk-build
-          path: build
+          path: build/generated.apk
 
   upload-to-drive:
     name: Upload APK to Google Drive
     runs-on: ubuntu-latest
-    needs: app-build
+    needs: build
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -63,13 +63,12 @@ jobs:
       - name: Set current datetime for apk build
         shell: bash
         run: |
-          datetime=$(TZ="Asia/Kathmandu" date +"%Y-%m-%dT%H:%M:%S")
+          datetime=$(date +'%Y-%m-%dT%H:%M:%S')
           echo "DateTime=$datetime" >> $GITHUB_ENV
-
       - name: Authenticate and upload to Google Drive
         uses: hoatruongdev09/google-drive-file-upload-github-action@v1.1
         with:
           service-account-json: ${{ secrets.GOOGLE_CREDENTIALS }}
           upload-to-folder-id: ${{ secrets.DRIVE_FOLDER_ID }}
           file-path: build/generated.apk
-          upload-name: staging-Journa.apk
+          upload-name: ${{ env.DateTime }}-Journa.apk
