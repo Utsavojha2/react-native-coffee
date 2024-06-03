@@ -36,7 +36,7 @@ jobs:
         run: |
           touch .env |
           echo EXPO_PUBLIC_SUPABASE_API_URL=${{ secrets.EXPO_API_URL }} >> .env |
-          echo EXPO_PUBLIC_SUPABASE_API_KEY=${{ secrets.EXPO_API_KEY }} >> .env |
+          echo EXPO_PUBLIC_SUPABASE_API_KEY=${{ secrets.EXPO_API_KEY }} >> .env 
 
       - name: dispatch-test-build
         shell: bash
