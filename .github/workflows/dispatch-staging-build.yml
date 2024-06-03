@@ -34,7 +34,8 @@ jobs:
       - name: Internal dev build
         shell: bash
         run: |
-          touch .env; echo EXPO_PUBLIC_SUPABASE_API_URL=${{ secrets.EXPO_API_URL }} >> .env; echo EXPO_PUBLIC_SUPABASE_API_KEY=${{ secrets.EXPO_API_KEY }} >> .env; cat .env; yarn global add dotenv-cli; mkdir -p build; dotenv -- eas build --profile dev-preview --platform android --local --output=build/generated.apk
+          yarn global add dotenv-cli;
+          EXPO_PUBLIC_SUPABASE_API_URL=${{ secrets.EXPO_API_URL }} EXPO_PUBLIC_SUPABASE_API_KEY=${{ secrets.EXPO_API_KEY }} dotenv -- eas build --profile dev-preview --platform android --local --output=build/generated.apk
 
       - uses: actions/upload-artifact@v4
         with:
