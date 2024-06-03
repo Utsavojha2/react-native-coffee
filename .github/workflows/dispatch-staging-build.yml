@@ -31,15 +31,15 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: dispatch-test-build
+      - name: dispatch-staging-build
         shell: bash
         run: |
-          touch .env |
-          echo EXPO_PUBLIC_SUPABASE_API_URL=${{ secrets.EXPO_API_URL }} >> .env |
-          echo EXPO_PUBLIC_SUPABASE_API_KEY=${{ secrets.EXPO_API_KEY }} >> .env |
-          cat .env |
-          yarn global add dotenv-cli |
-          dotenv -- eas build --profile dev-preview --platform android --non-interactive --local --output=build/generated.apk
+          touch .env 
+          echo EXPO_PUBLIC_SUPABASE_API_URL=${{ secrets.EXPO_API_URL }} >> .env 
+          echo EXPO_PUBLIC_SUPABASE_API_KEY=${{ secrets.EXPO_API_KEY }} >> .env 
+          cat .env 
+          yarn global add dotenv-cli 
+          dotenv -- eas build --profile dev-preview --platform android --local --output=build/generated.apk
 
       - uses: actions/upload-artifact@v4
         with:
