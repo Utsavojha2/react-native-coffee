@@ -48,25 +48,24 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Set env
+      - name: Set env values from secrets
         shell: bash
         run: |
           touch .env 
           echo EXPO_PUBLIC_SUPABASE_API_URL=${{ secrets.EXPO_API_URL }} >> .env 
           echo EXPO_PUBLIC_SUPABASE_API_KEY=${{ secrets.EXPO_API_KEY }} >> .env 
-          cat .env 
-
-      - name: Internal dev build
-        shell: bash
-        run: |
-          mkdir -p build 
+          cat .env
           yarn global add dotenv-cli
-          eas_build_command="dotenv -e .env -- eas build --profile dev-preview --platform ${{ github.event.inputs.platform }} --non-interactive"
-          if [[ "${{ github.event.inputs.buildType }}" == "local" ]]; then
-            eas_build_command="${eas_build_command} --local --output=build/generated.${{ github.event.inputs.platform == 'android' && 'apk' || 'ipa' }}"
-          fi
 
-          eval "$eas_build_command"
+      - name: Local dev build
+        if: ${{ github.event.inputs.buildType == 'local' }}
+        shell: bash
+        run: dotenv -- eas build --profile preview --platform ${{ github.event.inputs.platform }} --non-interactive --local --output=build/generated.${{ github.event.inputs.platform == 'android' && 'apk' || 'ipa' }}"
+
+      - name: Expo cloud build
+        if: ${{ github.event.inputs.buildType == 'cloud' }}
+        shell: bash
+        run: dotenv -- eas build --profile preview --platform ${{ github.event.inputs.platform }} --non-interactive"
 
       - uses: actions/upload-artifact@v4
         if: ${{ github.event.inputs.buildType == 'local' }}
